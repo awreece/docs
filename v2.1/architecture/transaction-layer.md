@@ -35,6 +35,16 @@ As write intents are created, CockroachDB checks for newer committed valuesâ€“â€
 
 If transactions fail for other reasons, such as failing to pass a SQL constraint, the transaction is aborted.
 
+<span class="version-tag">New in v2.1:</span> Transactional writes are pipelined when being replicated and when being written to disk, dramatically reducing the latency of transactions that perform multiple writes.
+
+The optimization works by breaking [SQL layer][sql] writes up into the following KV operations:
+
+- A synchronous "dry-run" KV read: The read operation performs all constraint validation and determines the effects of the write, but does not actually perform the write.
+
+- An asynchronous KV write: The write will be performed at some later time; the only constraint is that it happens before the transaction is committed.
+
+This improves transactional latency because each [SQL layer][sql] operation only needs to wait for a KV read instead of a KV write, and reads are generally much faster than writes.  The individual latencies required for each KV write are reduced to that of a single consensus write by performing the writes concurrently.
+
 #### Reading
 
 If the transaction has not been aborted, the transaction layer begins executing read operations. If a read only encounters standard MVCC values, everything is fine. However, if it encounters any write intents, the operation must be resolved as a [transaction conflict](#transaction-conflicts).
@@ -204,3 +214,8 @@ The `TxnCoordSender` sends its KV requests to `DistSender` in the distribution l
 ## What's next?
 
 Learn how CockroachDB presents a unified view of your cluster's data in the [distribution layer](distribution-layer.html).
+
+<!-- Links -->
+
+[storage]: storage-layer.html
+[sql]: sql-layer.html
