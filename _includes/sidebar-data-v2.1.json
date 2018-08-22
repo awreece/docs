@@ -349,6 +349,41 @@
         ]
       },
       {
+        "title": "Migrate",
+        "items": [
+          {
+            "title": "Migration Overview",
+            "urls": [
+              "/${VERSION}/migration-overview.html"
+            ]
+          },
+          {
+            "title": "Migrate from Postgres",
+            "urls": [
+              "/${VERSION}/migrate-from-postgres.html"
+            ]
+          },
+          {
+            "title": "Migrate from MySQL",
+            "urls": [
+              "/${VERSION}/migrate-from-mysql.html"
+            ]
+          },
+          {
+            "title": "Migrate from Oracle",
+            "urls": [
+              "/${VERSION}/migrate-from-oracle.html"
+            ]
+          },
+          {
+            "title": "Migrate from CSV",
+            "urls": [
+              "/${VERSION}/migrate-from-csv.html"
+            ]
+          }
+        ]
+      },
+      {
         "title": "Maintain",
         "items": [
           {
@@ -367,12 +402,6 @@
             "title": "Decommission Nodes",
             "urls": [
               "/${VERSION}/remove-nodes.html"
-            ]
-          },
-          {
-            "title": "Import Data",
-            "urls": [
-              "/${VERSION}/import-data.html"
             ]
           },
           {
